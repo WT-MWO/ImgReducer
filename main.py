@@ -15,9 +15,9 @@ import io
 #[x]możliwość dodania prefixu/suffixu z zachowaniem starej nazwy
 #[]możliwość dodania prefixu/suffixu ze zmianą nazwy
 #[]możliwość zmiany rozdzielczości/wymiarów zdjecia
-#[]możliwość podania samej ścieżki bez koniecznośći podawania rozszerzenia
+#[]możliwość podania samej ścieżki bez koniecznośći podawania rozszerzenia i czy sa tam tylko zdjecia, ma rozpoznac sam
 #[]możliwość dodania rotate
-#[]możliwość wklejenia path bez przejmowania sie jaki format zdjec jest w folderze i czy sa tam tylko zdjecia, ma rozpoznac sam
+
 
 dir = r"C:\Users\m_wol\OneDrive\Pulpit\pics\*.jpg"
 dir2 = r"D:\DATA\m.wolinski\Downloads\drive-download-20220926T095835Z-001\drive-download-20220926T095835Z-001\*.jpg"
@@ -52,6 +52,15 @@ class ImageHandler:
             image = Image.frombytes(mode= self.imgmode[name], data = img, size=self.imgsize[name],)
             #image = Image.open(io.BytesIO(img))
             image.save(img_name, optimize=optimized, quality=quality)
+
+    def image_rename(self, new_name = "Image"):
+        pass
+
+    def image_resize(self):
+        pass
+
+    def image_rotate(self):
+        pass
 
 
 imghandler = ImageHandler(dir)

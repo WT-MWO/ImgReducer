@@ -1,8 +1,6 @@
-#import PIL
 import os
 import glob
 from PIL import Image
-import io
 
 # Skrypt powinien mieć możliwość zapisywania pod inną nazwą z numeracją lub możliwość zapisywania pod starą nazwą w nowym folderze, w formacie png lub jpeg.
 # Docelowo stworzyc gui z inputem original path -> destination path, picture size, antialias y/n, format png/jpg
@@ -20,7 +18,6 @@ import io
 
 
 dir = r"C:\Users\m_wol\OneDrive\Pulpit\pics\*.jpg"
-dir2 = r"D:\DATA\m.wolinski\Downloads\drive-download-20220926T095835Z-001\drive-download-20220926T095835Z-001\*.jpg"
 
 class ImageHandler:
     def __init__(self, path) -> None:
@@ -28,14 +25,16 @@ class ImageHandler:
         self.resized_img_dict = {}
         self.imgsize = {}
         self.imgmode = {}
+        self.imagelist = []
         pass
-    
-    def size_reduce(self, optimized = True, quality=60):
-        image_list = []
+
+    def get_images(self): #przerobic tak zeby rozpoznawalo pliki ze zdjeciami, nawyzej trzeba podac liste formatow
         for file in glob.glob(self.path):
             img = Image.open(file)
-            image_list.append(img)
-        for img in image_list:
+            self.image_list.append(img)
+    
+    def size_reduce(self, optimized = True, quality=60):
+        for img in self.image_list:
             resized_img = img.resize(img.size, Image.Resampling.LANCZOS)
             self.resized_img_dict[resized_img.tobytes()] = img.filename
             self.imgsize[img.filename] = img.size

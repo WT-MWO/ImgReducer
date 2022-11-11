@@ -55,7 +55,7 @@ class ImageHandler:
             image = Image.frombytes(mode= self.imgmode[name], data = img, size=self.imgsize[name],)
             image.save(img_name, optimize=optimized, quality=quality)
     
-    def image_resize(self):
+    def image_resize(self, size = '800x800', as_copy = True):
         pass
 
     def image_rotate(self):
@@ -85,7 +85,6 @@ class FileModifier():
                 creation_date = self.get_file_datetime(path_name_file = filepath,)
             else:
                 creation_date = ""
-
             os.rename(filepath, self.path + "\\" + name + '_' + str(n) + str(creation_date) + ext)
             if add_number:
                 n += 1

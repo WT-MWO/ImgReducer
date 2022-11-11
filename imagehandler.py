@@ -46,7 +46,7 @@ class ImageHandler:
             self.imgsize[img.filename] = img.size
             self.imgmode[img.filename] = img.mode
 
-    def save_image(self, as_copy = True, prefix="", suffix="", optimized = True, quality=60, format = "jpg"):
+    def save_reduced_image(self, as_copy = True, prefix="", suffix="", optimized = True, quality=60, format = "jpg"):
         for img, name in self.resized_img_dict.items():
             if as_copy:
                 if suffix == "":
@@ -54,9 +54,20 @@ class ImageHandler:
             img_name = prefix + os.path.splitext(name)[0] + suffix + '.' + format
             image = Image.frombytes(mode= self.imgmode[name], data = img, size=self.imgsize[name],)
             image.save(img_name, optimize=optimized, quality=quality)
-    
-    def image_resize(self, size = '800x800', as_copy = True):
-        pass
+#split image handler into imagereducer class and imagemodifierclass
+#add image save function which will be used in resize rotate etc.
+
+    def image_resize(self, size = (800, 800), as_copy = True, optimized = True, quality=60):
+        for file in os.listdir(self.path):
+            if self.is_image():
+                if as_copy:
+                    img = Image.open(os.path.join(self.path,file))
+                    #img = img_org.copy()
+                    img.thumbnail(size, Image.Resampling.LANCZOS)
+                    ext = os.path.splitext(file)[1]
+                    name = os.path.splitext(file)[0]
+                    img.save(self.path + "\\" + name + '-Copy' + ext, optimize = optimized, quality = quality)
+
 
     def image_rotate(self):
         pass

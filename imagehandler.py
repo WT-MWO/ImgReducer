@@ -1,6 +1,6 @@
 import os
 from PIL import Image, ImageOps
-
+import time
 # Docelowo stworzyc gui z inputem original path -> destination path, picture size, antialias y/n, format png/jpg
 # Docelowo wybór zdjęć w gui powinien się odbywać na zasadzie zbioru wybranych zdjęć, nie z zawartości 
 
@@ -9,11 +9,11 @@ from PIL import Image, ImageOps
 #[x]jak wyżej, ale z kopią
 #[x]możliwość zapisania pod formatem .png
 #[x]możliwość dodania prefixu/suffixu z zachowaniem starej nazwy
-#[]możliwość dodania prefixu/suffixu ze zmianą nazwy
+#[x]możliwość dodania  zmiany nazwy z numeracja
 #[]możliwość zmiany rozdzielczości/wymiarów zdjecia
 #[x]możliwość podania samej ścieżki bez koniecznośći podawania rozszerzenia i czy sa tam tylko zdjecia, ma rozpoznac sam
-#[]możliwość dodania rotate
-
+#[]możliwość dodania rotate#
+#[x]dopisywanie daty do tytułu - data oryg zdjecia, data biezaca
 
 class ImageHandler:
     def __init__(self, path) -> None:
@@ -24,14 +24,20 @@ class ImageHandler:
         self.image_list = [] #hold "raw" images to be modified
         pass
 
-    def get_images(self):
+    def is_image(self):
+        is_image = True
         for file in os.listdir(self.path):
-            img_extensions = [".jpg", ".png", ".gif"] #needs to be tested for all except jpg
+            img_extensions = [".jpg", ".png", ".gif"]
             ext = os.path.splitext(file)[1]
             if ext.lower() not in img_extensions:
-                continue
-            img = Image.open(os.path.join(self.path,file))
-            self.image_list.append(img)
+               is_image = False
+            return is_image
+
+    def get_images(self):
+        for file in os.listdir(self.path):
+            if self.is_image():
+                img = Image.open(os.path.join(self.path,file))
+                self.image_list.append(img)
     
     def size_reduce(self, optimized = True, quality=60):
         for img in self.image_list:
@@ -48,12 +54,39 @@ class ImageHandler:
             img_name = prefix + os.path.splitext(name)[0] + suffix + '.' + format
             image = Image.frombytes(mode= self.imgmode[name], data = img, size=self.imgsize[name],)
             image.save(img_name, optimize=optimized, quality=quality)
-
-    def image_rename(self, new_name = "Image"):
-        pass
-
+    
     def image_resize(self):
         pass
 
     def image_rotate(self):
         pass
+
+class FileModifier():
+    def __init__(self, path) -> None:
+        self.path = path
+
+    def get_file_datetime(self, path_name_file = "", ymd_date = True):
+    #return string
+        creation_date = os.path.getctime(path_name_file)
+        cd_time_obj = time.gmtime(creation_date)
+        if ymd_date: 
+            date_str = "-" + time.strftime(r"%Y-%m-%d", cd_time_obj)
+        else:
+            date_str = "-" + time.strftime(r"%Y-%m-%d, %H:%M:%S", cd_time_obj)
+        return date_str
+
+    def image_rename(self, name = "Image", add_number = True, start_from = 0, add_date_year = False):
+    #this is supposed to be called after save_image, operation is executed only on filenames in dir
+        n = start_from
+        for file in os.listdir(self.path):
+            ext = os.path.splitext(file)[1]
+            filepath = self.path + "\\" + file
+            if add_date_year:
+                creation_date = self.get_file_datetime(path_name_file = filepath,)
+            else:
+                creation_date = ""
+
+            os.rename(filepath, self.path + "\\" + name + '_' + str(n) + str(creation_date) + ext)
+            if add_number:
+                n += 1
+

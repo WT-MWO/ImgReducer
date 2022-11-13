@@ -10,10 +10,12 @@ import time
 #[x]możliwość zapisania pod formatem .png
 #[x]możliwość dodania prefixu/suffixu z zachowaniem starej nazwy
 #[x]możliwość dodania  zmiany nazwy z numeracja
-#[]możliwość zmiany rozdzielczości/wymiarów zdjecia
+#[x]możliwość zmiany rozdzielczości/wymiarów zdjecia
 #[x]możliwość podania samej ścieżki bez koniecznośći podawania rozszerzenia i czy sa tam tylko zdjecia, ma rozpoznac sam
 #[]możliwość dodania rotate#
 #[x]dopisywanie daty do tytułu - data oryg zdjecia, data biezaca
+#[]przed push github add comments ''' 
+
 
 class ImageHandler:
     def __init__(self, path) -> None:

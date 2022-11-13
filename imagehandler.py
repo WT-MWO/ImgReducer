@@ -12,7 +12,9 @@ class ImageHandler:
     - saving with reduced size (optimized)
     - resizing images with given size
     - rotating images in one of directions
-    - renaming files without size modification with possibility to add img creation date"""
+    - renaming files without size modification with possibility to add img creation date
+    This code used PIL (Python Imaging Library) licensed with open source HPND License. 
+    """
 
     def __init__(self, path) -> None:
         self.path = path

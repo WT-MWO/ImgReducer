@@ -72,8 +72,9 @@ class ImageHandler:
                     img.save(self.path + "\\" + name + '-Copy' + ext, optimize = optimized, quality = quality)
 
     def image_rotate(self, angle = 90):
+        """Rotates by given angle counterclockwise"""
         for img in self.image_list:
-            rotated_img = img.rotate(angle)
+            rotated_img = img.rotate(angle, expand=1)
             rotated_img.save(img.filename)
 
     def get_file_datetime(self, path_name_file = "", ymd_date = True):

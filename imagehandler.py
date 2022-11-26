@@ -1,11 +1,7 @@
 import os
-from PIL import Image, ImageOps
+from PIL import Image
 import time
-# Target is to create gui with input original path -> destination path, picture size, antialias y/n, format png/jpg
-# Target is to choose files to be modified, not entire folder with pictures with it.
 
-#functions to be implemented
-#[]rotate#
 
 class ImageHandler:
     """This class allows for multiple images modifications such as:
@@ -61,9 +57,6 @@ class ImageHandler:
             image = Image.frombytes(mode= self.imgmode[name], data = img, size=self.imgsize[name],)
             image.save(img_name, optimize=optimized, quality=quality)
 
-#split image handler into imagereducer class and imagemodifierclass
-#add image save function which will be used in resize rotate etc.
-
     def image_resize(self, size = (800, 800), as_copy = True, optimized = True, quality=60):
         """ Resizing images based on given size, size must be given as a tuple (width, height),
         as_copy - adds "-Copy" as suffix,
@@ -78,15 +71,17 @@ class ImageHandler:
                     name = os.path.splitext(file)[0]
                     img.save(self.path + "\\" + name + '-Copy' + ext, optimize = optimized, quality = quality)
 
-    def image_rotate(self):
-        pass
+    def image_rotate(self, angle = 90):
+        for img in self.image_list:
+            rotated_img = img.rotate(angle)
+            rotated_img.save(img.filename)
 
     def get_file_datetime(self, path_name_file = "", ymd_date = True):
         """Gets a creation datetime data of the file """
     #this function need rework, useless if statement
         creation_date = os.path.getctime(path_name_file)
         cd_time_obj = time.gmtime(creation_date)
-        if ymd_date: 
+        if ymd_date:
             date_str = "-" + time.strftime(r"%Y-%m-%d", cd_time_obj)
         else:
             date_str = "-" + time.strftime(r"%Y-%m-%d, %H:%M:%S", cd_time_obj)

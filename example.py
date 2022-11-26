@@ -12,7 +12,7 @@ imghandler.get_images()
 imghandler.size_reduce()
 
 ##saving images, as copy add prefix etc.
-imghandler.save_reduced_image(as_copy = False, prefix="IMG-")
+imghandler.save_reduced_image(as_copy = False, quality=40)
 
 #imghandler.image_resize()
 

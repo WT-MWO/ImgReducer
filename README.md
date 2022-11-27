@@ -3,6 +3,7 @@
 ## Introduction
 
 ImgReducer is a simple script which allows to reduce size, rename, resize multiple pictures in given directory.
+
 Script is based on Pillow library by Alex Clark and Contributors https://github.com/python-pillow/Pillow
 
 ## Features

@@ -64,12 +64,15 @@ class ImageHandler:
         for file in os.listdir(self.path):
             if self.is_image():
                 if as_copy:
-                    img = Image.open(os.path.join(self.path,file))
-                    #img = img_org.copy()
-                    img.thumbnail(size, Image.Resampling.LANCZOS)
-                    ext = os.path.splitext(file)[1]
-                    name = os.path.splitext(file)[0]
-                    img.save(self.path + "\\" + name + '-Copy' + ext, optimize = optimized, quality = quality)
+                    suffix = "-Copy"
+                else:
+                    suffix = ""
+                img = Image.open(os.path.join(self.path,file))
+                #img = img_org.copy()
+                img.thumbnail(size, Image.Resampling.LANCZOS)
+                ext = os.path.splitext(file)[1]
+                name = os.path.splitext(file)[0]
+                img.save(self.path + "\\" + name + suffix + ext, optimize = optimized, quality = quality)
 
     def image_rotate(self, angle = 90):
         """Rotates by given angle counterclockwise"""

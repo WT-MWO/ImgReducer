@@ -1,7 +1,7 @@
-from imagehandler import ImageHandler
+from src.imagehandler import ImageHandler
 
 # Paste you folder path
-dir = r"C:\Users\m_wol\OneDrive\Pulpit\pics"
+dir = r"test"
 
 imghandler = ImageHandler(dir)
 
